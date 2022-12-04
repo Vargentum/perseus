@@ -1,6 +1,8 @@
 import Card from './Card'
 import CreatureCard from './CreatureCard'
 import SpellCard from './SpellCard'
+// import Forge from '../Forge'
+import Player from '../Player'
 
 interface SoulMaterial {
   name: string,
@@ -11,6 +13,14 @@ interface SoulMaterial {
 export default class SoulCard extends Card implements SoulCard {
 
   readonly rarity: Soul
+
+  protected sealed: boolean = true
+  protected card: CreatureCard | SpellCard | null = null
+
+  private unsealWith(creatureCard: CreatureCard | SpellCard) {
+    this.card = creatureCard
+    this.sealed = false
+  }
   
   constructor({name, description, rarity}: SoulMaterial) {
     super({name, description, cost: 0})
@@ -18,19 +28,43 @@ export default class SoulCard extends Card implements SoulCard {
     this.rarity = rarity
   }
 
-  // playAsCreatureCard(cost: number): CreatureCard {
-  //   if (!this.playable) {
-  //     throw new Error('Soul is not playable')
-  //   }
-  //   this.playable = false
-  //   return new CreatureCard()
-  // }
+  playAsCreatureCard(cost: number): CreatureCard {
+    if (!this.playable) {
+      throw new Error('Soul is not playable')
+    }
+    if (this.sealed) {
+      this.unsealWith(
+        new CreatureCard({
+          name: 'Troll',
+          description: 'A troll',
+          cost,
+          attackPoints: cost,
+          healthPoints: cost,
+          archetype: Archetype.Attacker,
+          races: [Race.Troll],
+        })
+      )
+    }
+    return this.card as CreatureCard
+  }
 
-  // playAsSpellCard(cost: number): SpellCard {
-  //   if (!this.playable) {
-  //     throw new Error('Soul is not playable')
-  //   }
-  //   this.playable = false
-  //   return new SpellCard(cost)
-  // }
+  playAsSpellCard(cost: number): SpellCard {
+    if (!this.playable) {
+      throw new Error('Soul is not playable')
+    }
+    if (this.sealed) {
+      this.unsealWith(
+        new SpellCard({
+          name: 'Fireball',
+          description: `'A burst of fire that deals ${cost} damage to creature or player`,
+          cost,
+          validTargets: [Player, CreatureCard],
+          body: (target: Player | CreatureCard) => {
+            target.takeDamage(cost)
+          }
+        })
+      )
+    }
+    return this.card as SpellCard
+  }
 }

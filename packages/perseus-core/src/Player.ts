@@ -9,18 +9,16 @@ export default class Player extends Entity implements Player {
   public static MAX_MANA_POINTS = 10
   public static MAX_HAND_SIZE = 10
 
-  private static findCardIndex(card: SomeCard, source: SomeCard[]): number {
-    return source.findIndex((c) => c.id === card.id)
+  private static findCardId(card: SomeCard, source: SomeCard[]): id | undefined {
+    return source.find((c) => c.id === card.id)?.id
   }
 
-  private static removeCardFrom(card: SomeCard, sources: Array<SomeCard[]>): void {
-
+  private static removeCardFrom(card: SomeCard, sources: SomeCard[][]): void {
     for (let i = 0; i < sources.length; i++) {
-      let source = sources[i]
-      let cardSourceIndex = Player.findCardIndex(card, source)
-    
-      if (cardSourceIndex !== -1) {
-        source.splice(cardSourceIndex, 1)
+      let cardFoundInSourceId = Player.findCardId(card, sources[i])
+
+      if (cardFoundInSourceId) {
+        sources[i] = sources[i].filter((c) => c.id !== cardFoundInSourceId)
         break
       }
     }
@@ -68,32 +66,41 @@ export default class Player extends Entity implements Player {
       this.hand = hand
     }
     else if (Array.isArray(card)) {
-      this.hand.push(...card)
+      this.hand = this.hand.concat(card)
     }
     else {
-      this.hand.push(card)
+      this.hand = this.hand.concat([card])
     }
   }
 
-  playCard(card: SomeCard) {
-    this.battlefield.push(card) 
-
-    Player.removeCardFrom(card, [
-      this.hand,
-      this.graveyard,
-      this.deck.cards,
-    ])
+  playCard(card: SomeCard[] | SomeCard) {
+    if (Array.isArray(card)) {
+      card.forEach((c) => this.playCard(c))
+    }
+    else {
+      this.battlefield = this.battlefield.concat([card])
+      // card could be played from hand, graveyard or deck
+      Player.removeCardFrom(card, [
+        this.hand,
+        this.graveyard,
+        this.deck.cards,
+      ])
+    }
   }
 
-  dropCard(card: SomeCard) {
-    this.graveyard.push(card)
-
-    Player.removeCardFrom(card, [
-      this.hand,
-      this.graveyard,
-      this.battlefield,
-      this.deck.cards,
-    ])
+  discardCard(card: SomeCard[] | SomeCard) {
+    if (Array.isArray(card)) {
+      card.forEach((c) => this.discardCard(c))
+    }
+    else {
+      this.graveyard = this.graveyard.concat([card])
+      // card could be discarded from hand, battlefield or deck
+      Player.removeCardFrom(card, [
+        this.hand,
+        this.battlefield,
+        this.deck.cards,
+      ])
+    }
   }
   
   takeDamage(damage: number) {

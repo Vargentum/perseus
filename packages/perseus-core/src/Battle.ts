@@ -4,25 +4,21 @@ import Entity from './Entity'
 import Player from './Player'
 
 
-interface BattleMaterial {
-  players: Player[],
-}
-
 class Battle extends Entity implements Battle {
 
   public static CARDS_PER_TURN = 1
   public static START_HAND_SIZE = 3 
   public static MIN_PLAYERS = 2
 
-  readonly attackedFirstPlayer: Player
-  private players: Player[]
-  private effects: Effect[]
-  private roundsTotal: number
-  private attackedPlayersIds: string[]
+  // private effects: Effect[]
+  private attackedPlayersIds: id[] = []
   private attackingPlayer: Player
+  private players: Player[]
+  private roundsTotal: number = 0
   private winner: Player | null = null
+  readonly attackedFirstPlayer: Player
 
-  constructor({players}: BattleMaterial) {
+  constructor({players}: BattleConstructor) {
     if (players.length < Battle.MIN_PLAYERS) {
       throw new Error(`Battle requires at least ${Battle.MIN_PLAYERS} players`)
     }
@@ -33,10 +29,6 @@ class Battle extends Entity implements Battle {
     this.players = players
     this.attackingPlayer = this.randomPlayer
     this.attackedFirstPlayer = this.attackingPlayer
-    this.attackedPlayersIds = []
-
-    this.effects = []
-    this.roundsTotal = 0
   }
 
   private get randomPlayer(): Player {
@@ -54,7 +46,6 @@ class Battle extends Entity implements Battle {
     return this.roundsTotal === 1
   }
 
-
   startTurn(player: Player) {
     this.attackingPlayer = player
 
@@ -68,16 +59,12 @@ class Battle extends Entity implements Battle {
         cardsToDraw += Battle.START_HAND_SIZE
       }
     }
-
-    for (let i = 0; i < cardsToDraw; i++) {
-      player.drawCard()
-    }
-    
+    player.drawCard(cardsToDraw)
     player.restoreMana(this.roundsTotal)
   }
 
   endTurn(playerId: string) {
-    this.attackedPlayersIds.push(playerId)
+    this.attackedPlayersIds = [...this.attackedPlayersIds, playerId]
     
     if (this.nextNonAttackedPlayer) {
       this.startTurn(this.nextNonAttackedPlayer)
@@ -102,7 +89,16 @@ class Battle extends Entity implements Battle {
   }
 
   end() {
-    // this.activePlayer = null
+    
+  }
+
+  win(player: Player) {
+    this.winner = player
+    this.end()
+  }
+
+  get ended() {
+    return !!this.winner
   }
 }
 
@@ -127,5 +123,6 @@ const souls = {
 // })
 
 // battle.startTurn(playerId)
+// battle.endTurn(playerId)
 // battle.endTurn()
 // battle.end()

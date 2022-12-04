@@ -40,7 +40,7 @@ interface EntityConstructor {
 }
 
 interface Entity {
-  id: string
+  id: id
   name: string
   description?: string
   new(constructor: EntityConstructor): Entity
@@ -60,7 +60,7 @@ interface Player extends Entity {
   restoreMana(mana: number): void
   drawCard(card: SomeCard[] | SomeCard | number): void
   playCard(card: SomeCard): void
-  dropCard(card: SomeCard): void
+  discardCard(card: SomeCard): void
   takeDamage(damage: number): void
   die(): void
   new(constructor: PlayerConstructor): Player
@@ -73,8 +73,8 @@ interface Deck extends Entity {
   length: number
   cards: SoulCard[]
   shuffle: () => void
-  pop: () => SoulCard | undefined
-  push: (cards: Card[]) => number
+  // pop: () => SoulCard | undefined
+  // push: (cards: Card[]) => number
   new(constructor: DeckConstructor): Deck
 }
 interface DeckConstructor extends EntityConstructor {
@@ -141,7 +141,7 @@ interface Turn {
 
 interface Battle {
   players: Player[]
-  activePlayerId: string
+  activePlayerId: id
   turns: Turn[]
   effects: Effect[]
   start: () => void
@@ -155,6 +155,17 @@ interface BattleConstructor {
   players: Player[]
 }
 
+interface ForgeConstructor {
+  level: number
+  soul: Soul
+}
+
+interface Forge {
+  new(constructor: ForgeConstructor): Forge
+  forge: () => SomeCard
+}
+
+type id = string
 
 type SomeCard = SoulCard | CreatureCard | SpellCard
 
