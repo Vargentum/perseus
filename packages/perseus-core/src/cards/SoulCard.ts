@@ -1,12 +1,7 @@
-import {Card, CreatureCard, SpellCard} from '../cards'
-// import Forge from '../Forge'
+import {Card} from './Card'
+import {SpellCard} from './SpellCard'
+import {CreatureCard} from './CreatureCard'
 import {Player} from '../Player'
-
-interface SoulMaterial {
-  name: string,
-  description: string,
-  rarity: Soul,
-}
 
 export class SoulCard extends Card implements SoulCard {
 
@@ -20,7 +15,7 @@ export class SoulCard extends Card implements SoulCard {
     this.sealed = false
   }
   
-  constructor({name, description, rarity}: SoulMaterial) {
+  constructor({name, description, rarity}: SoulCardConstructor) {
     super({name, description, cost: 0})
 
     this.rarity = rarity

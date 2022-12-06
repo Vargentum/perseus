@@ -1,4 +1,4 @@
-import { Card } from '../cards'
+import {Card} from './Card'
 
 
 export class SpellCard extends Card implements SpellCard {

@@ -1,5 +1,5 @@
 import {Entity} from './Entity'
-import {SoulCard} from './cards/SoulCard'
+import {SoulCard} from './cards'
 
 
 export class Deck extends Entity implements Deck {
@@ -22,6 +22,7 @@ export class Deck extends Entity implements Deck {
         const soul = new SoulCard({
           name: 'Soul',
           description: 'A soul',
+          cost: 1,
           rarity: Soul[type as keyof typeof Soul],
         })
         deck.push(soul)

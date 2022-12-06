@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import {Card} from '../cards'
+import {Card} from './Card'
 
 export class CreatureCard extends Card implements CreatureCard {
 
