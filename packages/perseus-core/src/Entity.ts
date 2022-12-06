@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid'
 
-export default class Entity implements Entity {
+export class Entity implements Entity {
   readonly id: id
   name: string
   description?: string

@@ -1,11 +1,9 @@
 import {random} from 'lodash'
-import CreatureCard from './cards/CreatureCard'
-import SpellCard from './cards/SpellCard'
-import SoulCard from './cards/SoulCard'
-import Player from './Player'
+import { CreatureCard, SpellCard } from './cards'
+import {Player} from './Player'
 
 
-export class ForgeCard  {
+export class ForgeCreatureCard  {
   protected level: number
   protected soul: Soul
 
@@ -50,8 +48,8 @@ export class ForgeSpellCard {
 }
 
 
-const basicForge = new ForgeCard({level: 1, soul: Soul.Common})
-console.log(basicForge.forge());
+// const basicForge = new ForgeCard({level: 1, soul: Soul.Common})
+// console.log(basicForge.forge());
 
 
 // export default class Forge {

@@ -1,8 +1,8 @@
-import Entity from './Entity'
-import SoulCard from './cards/SoulCard'
+import {Entity} from './Entity'
+import {SoulCard} from './cards/SoulCard'
 
 
-export default class Deck extends Entity implements Deck {
+export class Deck extends Entity implements Deck {
 
   private souls: DeckSoulsPerType
   cards: SoulCard[]

@@ -1,10 +1,7 @@
-import Card from './Card'
-import CreatureCard from './CreatureCard'
-import SoulCard from './SoulCard'
-import Player from '../Player'
+import { Card } from '../cards'
 
 
-export default class SpellCard extends Card implements SpellCard {
+export class SpellCard extends Card implements SpellCard {
 
   private body: SpellCardBody
   private validTargets: SpellCardTarget[]

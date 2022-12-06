@@ -1,21 +1,20 @@
 import {random} from 'lodash'
-import Deck from './Deck'
-import Entity from './Entity'
-import Player from './Player'
+import {Deck} from './Deck'
+import {Entity} from './Entity'
 
 
-class Battle extends Entity implements Battle {
+export class Battle extends Entity implements Battle {
 
   public static CARDS_PER_TURN = 1
   public static START_HAND_SIZE = 3 
   public static MIN_PLAYERS = 2
 
   // private effects: Effect[]
-  private attackedPlayersIds: id[] = []
-  private attackingPlayer: Player
-  private players: Player[]
-  private roundsTotal: number = 0
-  private winner: Player | null = null
+  attackedPlayersIds: id[] = []
+  attackingPlayer: Player
+  players: Player[]
+  roundsTotal: number = 0
+  winner: Player | null = null
   readonly attackedFirstPlayer: Player
 
   constructor({players}: BattleConstructor) {
@@ -63,8 +62,8 @@ class Battle extends Entity implements Battle {
     player.restoreMana(this.roundsTotal)
   }
 
-  endTurn(playerId: string) {
-    this.attackedPlayersIds = [...this.attackedPlayersIds, playerId]
+  endTurn(player: Player) {
+    this.attackedPlayersIds = [...this.attackedPlayersIds, player.id]
     
     if (this.nextNonAttackedPlayer) {
       this.startTurn(this.nextNonAttackedPlayer)

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import Card from './Card'
+import {Card} from '../cards'
 
-export default class CreatureCard extends Card implements CreatureCard {
+export class CreatureCard extends Card implements CreatureCard {
 
   public static BASE_ATTACK_MODIFIER = 1
   public static BASE_HEALTH_MODIFIER = 1
@@ -73,12 +73,12 @@ export default class CreatureCard extends Card implements CreatureCard {
 }
 
 
-const troll = new CreatureCard({
-  name: 'Troll',
-  description: 'A big and strong creature',
-  cost: 3,
-  attackPoints: 3,
-  healthPoints: 3,
-  archetype: Archetype.Attacker,
-  races: [Race.Troll],
-})
+// const troll = new CreatureCard({
+//   name: 'Troll',
+//   description: 'A big and strong creature',
+//   cost: 3,
+//   attackPoints: 3,
+//   healthPoints: 3,
+//   archetype: Archetype.Attacker,
+//   races: [Race.Troll],
+// })

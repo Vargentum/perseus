@@ -1,8 +1,6 @@
-import Card from './Card'
-import CreatureCard from './CreatureCard'
-import SpellCard from './SpellCard'
+import {Card, CreatureCard, SpellCard} from '../cards'
 // import Forge from '../Forge'
-import Player from '../Player'
+import {Player} from '../Player'
 
 interface SoulMaterial {
   name: string,
@@ -10,7 +8,7 @@ interface SoulMaterial {
   rarity: Soul,
 }
 
-export default class SoulCard extends Card implements SoulCard {
+export class SoulCard extends Card implements SoulCard {
 
   readonly rarity: Soul
 

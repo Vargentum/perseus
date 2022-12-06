@@ -1,8 +1,8 @@
 import {dropRight} from 'lodash'
-import Entity from './Entity'
+import {Entity} from './Entity'
 
 
-export default class Player extends Entity implements Player {
+export class Player extends Entity implements Player {
 
   public static START_HEALTH_POINTS = 30
   public static START_MANA_POINTS = 0

@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid'
-import Entity from '../Entity'
+import {Entity} from '../Entity'
 
-export default class Card extends Entity implements Card {
+export class Card extends Entity implements Card {
   
   protected playable: boolean = true
   protected initialCost: number

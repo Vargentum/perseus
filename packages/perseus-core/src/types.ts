@@ -141,13 +141,13 @@ interface Turn {
 
 interface Battle {
   players: Player[]
-  activePlayerId: id
-  turns: Turn[]
-  effects: Effect[]
+  winner: Player | null
   start: () => void
   end: () => void
   startTurn: (player: Player) => void
   endTurn: (player: Player) => void
+  startRound: () => void
+  endRound: () => void
   new(constructor: BattleConstructor): Battle
 }
 
