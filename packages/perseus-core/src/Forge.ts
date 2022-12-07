@@ -3,19 +3,26 @@ import { CreatureCard, SpellCard } from './cards'
 import {Player} from './Player'
 
 
-export class ForgeCreatureCard  {
+class Forge<T> implements Forge<T> {
   protected level: number
-  protected soul: Soul
+  protected rarity: CardRarity
 
-  constructor({level, soul}: ForgeConstructor) {
+  constructor({level, rarity}: ForgeConstructor) {
     this.level = level
-    this.soul = soul
+    this.rarity = rarity
+  }
+}
+
+
+export class ForgeCreatureCard extends Forge<CreatureCard>  {
+  constructor(constructor: ForgeConstructor) {
+    super(constructor)
   }
 
   forge(): CreatureCard {
     return new CreatureCard({
       name: 'Creature',
-      description: 'A creature',
+      description: `A creature of level ${this.level} and rarity ${this.rarity}`,
       cost: this.level,
       attackPoints: this.level,
       healthPoints: this.level,
@@ -25,22 +32,19 @@ export class ForgeCreatureCard  {
   }
 }
 
-export class ForgeSpellCard {
-  protected level: number
-  protected soul: Soul
+export class ForgeSpellCard extends Forge<SpellCard> {
 
-  constructor({level, soul}: ForgeConstructor) {
-    this.level = level
-    this.soul = soul
+  constructor(constructor: ForgeConstructor) {
+    super(constructor)
   }
 
   forge(): SpellCard {
     return new SpellCard({
-      name: 'Spell',
-      description: 'A spell',
+      name: 'Damage spell',
+      description: `A spell of level ${this.level} and rarity ${this.rarity}, that deals ${this.level} damage to the target creature`,
       cost: this.level,
-      body: (target: any | any[]) => {
-        console.log('Spell casted')
+      body: (target: CreatureCard) => {
+        target.takeDamage(this.level)
       },
       validTargets: [CreatureCard]
     })

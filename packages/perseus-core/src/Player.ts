@@ -56,7 +56,7 @@ export class Player extends Entity implements Player {
       if (card < 1) {
         throw new Error('You can\'t draw less than 1 card')
       }
-      let deck: SoulCard[] = []
+      let deck: SomeCard[] = []
       let hand: SomeCard[] = []
 
       this.deck.cards.forEach((c, index) => {

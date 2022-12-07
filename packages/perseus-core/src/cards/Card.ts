@@ -3,7 +3,7 @@ import {Entity} from '../Entity'
 
 export class Card extends Entity implements Card {
   
-  protected playable: boolean = true
+  playable: boolean = true
   protected initialCost: number
   cost: number
 

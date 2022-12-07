@@ -33,7 +33,7 @@ export class CreatureCard extends Card implements CreatureCard {
     this[attribute as keyof typeof this] = valueSetter(value)
   }
 
-  attack(target: CreatureCard | Player) {
+  attack(target: CreatureCard | Player): void {
     target.takeDamage(this.attackPoints)
   }
   

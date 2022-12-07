@@ -101,12 +101,12 @@ export class Battle extends Entity implements Battle {
   }
 }
 
-const souls = {
-  [Soul.Common]: 15,
-  [Soul.Talent]: 7,
-  [Soul.Hero]: 5,
-  [Soul.Legend]: 3,
-}
+// const souls = {
+//   [Soul.Common]: 15,
+//   [Soul.Talent]: 7,
+//   [Soul.Hero]: 5,
+//   [Soul.Legend]: 3,
+// }
 
 // const battle = new Battle({
 //   players: [

@@ -12,9 +12,19 @@ export class SpellCard extends Card implements SpellCard {
     this.validTargets = validTargets
   }
 
-  play(target: SpellCardTarget) {
-    if (this.playable && this.isValidTarget(target)) {
-      this.body(target) 
+  play(target: SpellCardTarget | SpellCardTarget[]) {
+    if (!this.playable) {
+      return
+    }
+    else if (Array.isArray(target)) {
+      target.forEach((t: SpellCardTarget) => {
+        if (this.isValidTarget(t)) {
+          this.body(t)
+        }
+      })
+    }
+    else {
+      this.play([target])
     }
   }
 

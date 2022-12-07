@@ -27,11 +27,16 @@ enum Archetype {
   Defender,
 }
 
-enum Soul {
+enum CardRarity {
   Common = 0,
   Hero = 2,
   Legend = 3,
   Talent = 1,
+}
+
+enum CardType {
+  Creature,
+  Spell,
 }
 
 interface EntityConstructor {
@@ -71,20 +76,28 @@ interface PlayerConstructor extends EntityConstructor {
 
 interface Deck extends Entity {
   length: number
-  cards: SoulCard[]
+  cards: SomeCard[]
   shuffle: () => void
-  // pop: () => SoulCard | undefined
+  // pop: () => SomeCard | undefined
   // push: (cards: Card[]) => number
   new(constructor: DeckConstructor): Deck
 }
 interface DeckConstructor extends EntityConstructor {
-  souls: DeckSoulsPerType,
+  readonly cardRarityConfig: DeckCardRarityConfig,
+  readonly cardTypeConfig: DeckCardTypeConfig,
+  readonly seed: number,
+  cards: SomeCard[],
 }
-interface DeckSoulsPerType {
-  [Soul.Common]: number,
-  [Soul.Talent]: number,
-  [Soul.Hero]: number,
-  [Soul.Legend]: number,
+interface DeckCardRarityConfig {
+  [CardRarity.Common]: number,
+  [CardRarity.Talent]: number,
+  [CardRarity.Hero]: number,
+  [CardRarity.Legend]: number,
+}
+
+interface DeckCardTypeConfig {
+  [CardType.Creature]: number,
+  [CardType.Spell]: number,
 }
 
 interface Card extends Entity {
@@ -115,17 +128,17 @@ interface CreatureCardConstructor extends CardConstructor {
   races: Race[],
 }
 
-interface SoulCard extends Card {
-  rarity: Soul
-  new(constructor: SoulCardConstructor): SoulCard
-}
-interface SoulCardConstructor extends CardConstructor {
-  rarity: Soul,
-}
+// interface CardRarityCard extends Card {
+//   rarity: CardRarity
+//   new(constructor: CardRarityCardConstructor): CardRarityCard
+// }
+// interface CardRarityCardConstructor extends CardConstructor {
+//   rarity: CardRarity,
+// }
 
 interface SpellCard extends Card {
-  body: SpellCardBody
   cancel: () => void
+  play: SpellCardBody,
   new(constructor: SpellCardConstructor): SpellCard
 }
 
@@ -157,17 +170,17 @@ interface BattleConstructor {
 
 interface ForgeConstructor {
   level: number
-  soul: Soul
+  rarity: CardRarity
 }
 
-interface Forge {
-  new(constructor: ForgeConstructor): Forge
-  forge: () => SomeCard
+interface Forge<T> extends Entity {
+  new(constructor: ForgeConstructor): Forge<T>
+  forge: () => T
 }
 
 type id = string
 
-type SomeCard = SoulCard | CreatureCard | SpellCard
+type SomeCard = CreatureCard | SpellCard
 
 type SpellCardTarget = Player | SomeCard
 

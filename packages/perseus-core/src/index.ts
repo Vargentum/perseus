@@ -1,4 +1,5 @@
 export {Battle} from './Battle'
+export {Card, CreatureCard, SpellCard} from './cards'
 export {Deck} from './Deck'
 export {Entity} from './Entity'
 export {ForgeCreatureCard, ForgeSpellCard} from './Forge'
